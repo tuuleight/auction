@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    {% for auc in auction %}
+            <a href="/auction/{{ auc['_id'] }}"> {{ auc['name'] }}</a>
+    {% end %}
+
+{% end %}

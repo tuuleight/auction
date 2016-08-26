@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block body %}
+<form action="/auction/new" method="post">
+    Auction name: <input name="name" type="text">
+    <br>
+    <textarea rows="4" cols="50" name="description">Write few lines about your
+        item</textarea>
+    <br>
+    Minimum price (you won't sell for less):<input type="number" name="price">
+    <br>
+    Auction ending date <input name="end_date" type="date">
+    <br>
+    {% module xsrf_form_html() %}
+    <input type="submit">
+</form>
+{% end %}

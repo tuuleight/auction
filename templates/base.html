@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Auction handler</title>
+  </head>
+  <body>
+  {% block body %}
+
+  {% end %}
+
+  {% block bottom %}
+
+  {% end %}
+
+{% if current_user is not None %}
+      {{ current_user }}
+  <a href="/auth/logout?next={{ url_escape(request.uri) }}">{{ _("Sign out") }}
+  </a>
+  {% end %}
+  create new account:
+
+  </body>
+</html>

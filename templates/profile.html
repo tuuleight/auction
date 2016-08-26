@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block body %}
+    {% for a in u_auction %}
+        {{ a['name'] }}
+        {{ a['end_date'] }}
+    {% end %}
+
+    {% for o in u_offer %}
+
+        {{ o['price'] }}
+        {{ o['datetime'] }}
+    {% end %}
+
+{% end %}
