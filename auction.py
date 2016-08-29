@@ -3,13 +3,11 @@ from bson import ObjectId
 import datetime
 import concurrent.futures
 import os.path
-import re
 import tornado.ioloop
 import tornado.web
 import tornado.httpserver
 import pymongo
 
-from tornado.concurrent import Future
 from tornado import gen
 from tornado.options import define, options, parse_command_line
 
@@ -69,10 +67,32 @@ class HomeHandler(BaseHandler):
 class AuctionHandler(BaseHandler):
     def get(self, slug):
         auction = self.db().auctions.find_one({'_id': ObjectId(slug)})
-        offer = self.db().offers.find_one({'auction_id': ObjectId(slug)})
+        offer = self.db().offers.find({'auction_id': slug})
         if not auction:
             raise tornado.web.HTTPError(404)
         self.render('auction_page.html', auction=auction, offer=offer)
+
+    @tornado.web.authenticated
+    def post(self, slug):
+        auction = self.db().auctions.find_one({'_id': ObjectId(slug)})
+        auction_author = auction['username']
+
+        # Unable for auction creator to post offer
+        if self.current_user.decode('utf-8') is not auction_author:
+            offer_price = int(self.get_argument('price'))
+
+            if offer_price < auction['price_min']:
+                self.write('Price lower than minimum for that auction. Go '
+                           'back and make higher offer')
+            else:
+                offer = {
+                    'username': self.current_user.decode('utf-8'),
+                    'price': offer_price,
+                    'datetime': datetime.datetime.now(),
+                    'auction_id': slug,
+                }
+                self.db().offers.insert_one(offer)
+                self.redirect('/auction/' + slug)
 
 
 class ProfileHandler(BaseHandler):
