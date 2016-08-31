@@ -1,14 +1,20 @@
 {% extends "base.html" %}
 {% block body %}
-    {% for a in u_auction %}
-        {{ a['name'] }}
-        {{ a['end_date'] }}
-    {% end %}
+My auctions: <br>
+{% for a in u_auction %}
+<ul>
+    <li><a href="/auction/{{ a['_id'] }}"> {{ a['name'] }}</a></li>
+    <li>{{ a['end_date'] }}</li>
+</ul>
+{% end %}
 
-    {% for o in u_offer %}
-
-        {{ o['price'] }}
-        {{ o['datetime'] }}
-    {% end %}
+My offers: <br>
+{% for o in u_offer %}
+<ul>
+    <li><a href="/auction/{{ o['auction_id'] }}">(auction link)</a> </li>
+    <li>{{ o['price'] }}</li>
+    <li>{{ o['datetime'] }}</li>
+</ul>
+{% end %}
 
 {% end %}

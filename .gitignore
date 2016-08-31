@@ -1,6 +1,7 @@
 *.pyc
 __pycache__
 robo.py
+robo.html
 robo2.py
 accounts.py
 .idea

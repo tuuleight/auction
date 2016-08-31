@@ -1,22 +1,25 @@
 {% extends "base.html" %}
 
 {% block body %}
-Start date: {{ auction['start_date'] }} <br>
-End date: {{ auction['end_date'] }} <br>
-
-        {{ auction['price_min'] }} <br>
-        {{ auction['description'] }} <br>
-        {{ auction['username'] }} <br>
+<ul>
+    <li>Start date: {{ auction['start_date'] }}</li>
+    <li>End date: {{ auction['end_date'] }}</li>
+    <li>Minimum price: {{ auction['price_min'] }}</li>
+    <li>Description: {{ auction['description'] }}</li>
+    <li>Auction owner: {{ auction['username'] }}</li>
+</ul>
 
 Current offers: <br>
 {% if offer is not None %}
     {% for o in offer %}
-        From {{ o['username'] }}: {{ o['price'] }}, {{ o['datetime'] }}
+        <ul>
+            <li>From {{ o['username'] }}: {{ o['price'] }}, {{ o['datetime'] }}
+            </li>
+        </ul>
     {% end %}
-{% else %}
-No offers yet
 {% end %}
-
+{% end %}
+{% block bottom %}
 <form method="post">
     Make your offer here: <input type="number" name="price">
     {% module xsrf_form_html() %}

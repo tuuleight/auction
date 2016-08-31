@@ -1,0 +1,53 @@
+.page-header {
+    background-color: #E5E880;
+    padding: 20px 20px 20px 40px;
+    font-family: 'Anton';
+    color: #ffffff;
+    font-size: 42pt;
+}
+
+.page-header a {
+    display: block;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.base_list ul {
+    font-family: 'Anton';
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #AFB50B;
+}
+
+.base_list a {
+    display: block;
+    color: #ffffff;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.base_list li {
+    float: left;
+}
+
+.base_list a:hover {
+    background-color: #E5E880;
+    text-decoration: none;
+    color: white;
+}
+
+body {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.index_body {
+    font-family: 'Anton';
+}
+
+.index_body a{
+    text-decoration: none;
+}

@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
 {% block body %}
-
+<div class="index_body">
     {% for auc in auction %}
-            <a href="/auction/{{ auc['_id'] }}"> {{ auc['name'] }}</a>
+    <ul>
+        <li><a href="/auction/{{ auc['_id'] }}"> {{ auc['name'] }}</a></li>
+    </ul>
     {% end %}
-
+    </div>
 {% end %}

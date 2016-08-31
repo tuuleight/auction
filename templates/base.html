@@ -1,10 +1,44 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
-    <title>Auction handler</title>
-  </head>
+    <title>Auction Handler</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+      integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+      integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ static_url("style.css") }}" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+
+</head>
   <body>
+  <div class="page-header">
+      <a href="/">Auction Handler</a>
+  </div>
+
+
+  <div class="base_list">
+      {% if current_user is not None %}
+  <ul>
+      <li><a href="/{{current_user}}?next={{ url_escape(request.uri) }}">
+      logged as: {{ current_user }}</a></li>
+      <li><a href="/create/new?next={{ url_escape(request.uri) }}">
+          {{ _("New auction") }}</a></li>
+      <li><a href="/auth/logout?next={{ url_escape(request.uri) }}">
+          {{ _("Sign out") }}</a></li>
+  </ul>
+  {% else %}
+  <ul>
+      <li><a href="/auth/create?next={{ url_escape(request.uri) }}">
+      {{ _("New account") }}</a></li>
+      <li><a href="/auth/login?next={{ url_escape(request.uri) }}">
+    {{ _("Log in") }} </a></li>
+  </ul>
+  {% end %}
+  </div>
+
+
   {% block body %}
 
   {% end %}
@@ -13,12 +47,6 @@
 
   {% end %}
 
-{% if current_user is not None %}
-      {{ current_user }}
-  <a href="/auth/logout?next={{ url_escape(request.uri) }}">{{ _("Sign out") }}
-  </a>
-  {% end %}
-  create new account:
 
   </body>
 </html>
