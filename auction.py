@@ -8,12 +8,11 @@ import tornado.web
 import tornado.httpserver
 import motor.motor_tornado
 
-from tornado.concurrent import Future
 from tornado import gen
 from tornado.options import define, options, parse_command_line
 
 define('port', default=8888, help='run on the given port', type=int)
-define('debug', default=True, help='run in debug mode')
+define('debug', default=False, help='run in debug mode')
 
 executor = concurrent.futures.ThreadPoolExecutor()
 client = motor.motor_tornado.MotorClient()
@@ -47,11 +46,6 @@ class BaseHandler(tornado.web.RequestHandler):
         if not user_id:
             return None
         return user_id
-
-    @gen.coroutine
-    def does_user_exist(self, username):
-        document = yield db.users.find_one({'username': username})
-        return document
 
     @gen.coroutine
     def get_auctions(self):
@@ -181,7 +175,9 @@ class AuthCreateHandler(BaseHandler):
     @gen.coroutine
     def post(self):
         username = self.get_argument('username')
-        if self.does_user_exist(username):
+        candidate = yield db.users.find_one({'username': username})
+
+        if candidate is not None:
             raise tornado.web.HTTPError(400, 'user already created')
 
         hashed_password = yield executor.submit(
@@ -201,10 +197,11 @@ class AuthLoginHandler(BaseHandler):
     @gen.coroutine
     def post(self):
         username = self.get_argument('username')
-        if not self.does_user_exist(username):
-            self.redirect('/auth/create')
 
         user = yield db.users.find_one({'username': username})
+
+        if user is None:
+            self.render('login.html')
 
         hashed_password = yield executor.submit(
             bcrypt.hashpw,
@@ -215,7 +212,7 @@ class AuthLoginHandler(BaseHandler):
             self.set_secure_cookie('auction_user', username)
             self.redirect(self.get_argument('next', '/'))
         else:
-            self.render('login.html', error='incorrect password')
+            self.render('login.html')
 
 
 class AuthLogoutHandler(BaseHandler):

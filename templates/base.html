@@ -21,18 +21,18 @@
   <div class="base_list">
       {% if current_user is not None %}
   <ul>
-      <li><a href="/{{current_user}}?next={{ url_escape(request.uri) }}">
+      <li><a href="/{{current_user}}">
       logged as: {{ current_user }}</a></li>
-      <li><a href="/create/new?next={{ url_escape(request.uri) }}">
+      <li><a href="/create/new">
           {{ _("New auction") }}</a></li>
-      <li><a href="/auth/logout?next={{ url_escape(request.uri) }}">
+      <li><a href="/auth/logout">
           {{ _("Sign out") }}</a></li>
   </ul>
   {% else %}
   <ul>
-      <li><a href="/auth/create?next={{ url_escape(request.uri) }}">
+      <li><a href="/auth/create">
       {{ _("New account") }}</a></li>
-      <li><a href="/auth/login?next={{ url_escape(request.uri) }}">
+      <li><a href="/auth/login">
     {{ _("Log in") }} </a></li>
   </ul>
   {% end %}
